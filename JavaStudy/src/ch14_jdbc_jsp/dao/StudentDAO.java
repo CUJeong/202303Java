@@ -29,6 +29,7 @@ public class StudentDAO {
 		query.append("	  , stu_score			");
 		query.append("FROM						");
 		query.append("	  students				");	// 세미콜론이 없음에 주의
+		query.append("ORDER BY stu_score DESC	");
 		
 		// 4. 쿼리문을 보유하고 실행할 수 있는 
 		// 객체(PreparedStatement) 생성
@@ -162,6 +163,27 @@ public class StudentDAO {
 		ps.close();
 		
 		return result;
+	}
+	
+	// 학생의 점수 증가(UPDATE) 메소드
+	public int plusScore(Connection conn, String stuId) throws SQLException {
+		StringBuffer query = new StringBuffer();
+		query.append("UPDATE 		 					");
+		query.append("		students		 			");
+		query.append("SET 								");
+		query.append("      stu_score = stu_score + 1	");
+		query.append("WHERE	1=1							");
+		query.append("  AND stu_id = ?					");
+		
+		PreparedStatement ps = conn.prepareStatement(query.toString());
+		
+		ps.setString(1, stuId);
+		
+		int cnt = ps.executeUpdate();
+		
+		ps.close();
+		
+		return cnt;
 	}
 	
 	
